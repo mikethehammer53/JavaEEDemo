@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册</title>
+</head>
+<link href="./CSS/Center.css"
+		rel="stylesheet"
+		type="text/css"/>
+<body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<form action="log.do">
+		<table style="width:300px">
+			<tr>
+				<td colspan="2" align="center" >注册</td>
+			</tr>
+			<tr >
+				<td>用户名：</td>
+				<td><input id="uid" name="name" type="text" style="width:100%"></td>
+			</tr>
+			<tr >
+				<td>密码：&nbsp;&nbsp;</td>
+				<td><input id="pid" name="pwd" type="password" style="width:100%"></td>
+			</tr>
+			<tr >
+				<td colspan="3" align="center">
+				<input type="button" value="取消">
+				<input type="button" value="提交" onclick="submit()" >
+				<input type="reset" value="重置" onclick="reset()">
+				</td>
+			</tr>
+		</table>
+</form>		
+<div id="debug">
+<hr>
+debug
+</div>
+</body>
+<script type="text/javascript">
+var name,pwd;
+function submit(){
+	name=document.getElementById("uid").value;
+	pwd=document.getElementById("pid").value;
+	if(name.length==0){
+		alert("用户名不能为空!");
+		return;
+	}
+	else{
+		if(name.length<8||name.length>32){
+			alert("用户名长度限制为8~32个字符!");
+			return;
+		}
+	}
+	if(pwd.length<6||pwd.length>8){
+		alert("密码长度限制为6~8个字符!");
+		return;
+	}
+	refresh();
+}
+function refresh(){
+	document.getElementById("debug").innerHTML="<hr>debug:<br>用户名:"+name+"<br>"+"密码:"+pwd;
+}
+function reset(){
+	document.getElementById("uid").value="";
+	document.getElementById("pid").value="";
+}
+
+
+</script>
+</html>
+
