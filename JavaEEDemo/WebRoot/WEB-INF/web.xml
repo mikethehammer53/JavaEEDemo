@@ -21,6 +21,55 @@
     <servlet-name>jdbctest</servlet-name>
     <servlet-class>jdbc.jdbctest</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>com.user.reg.UserServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>JsonServlet</servlet-name>
+    <servlet-class>com.user.reg.JsonServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>fileupload</servlet-name>
+    <servlet-class>fileprocess.fileupload</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>fileuploadmanually</servlet-name>
+    <servlet-class>fileprocess.fileuploadmanually</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CommonFileUpload</servlet-name>
+    <servlet-class>fileprocess.CommonFileUpload</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DownloadServlet</servlet-name>
+    <servlet-class>com.user.reg.DownloadServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>JsonServlet</servlet-name>
+    <url-pattern>/json.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>fileupload</servlet-name>
+    <url-pattern>/fileupload.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>fileuploadmanually</servlet-name>
+    <url-pattern>/fileupload2.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CommonFileUpload</servlet-name>
+    <url-pattern>/CommonFileUpload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DownloadServlet</servlet-name>
+    <url-pattern>/download.do</url-pattern>
+  </servlet-mapping>
 
 
 

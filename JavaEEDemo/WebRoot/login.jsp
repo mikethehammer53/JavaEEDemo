@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <title><fmt:message key="login.title"/></title>
 	<link rel="stylesheet" type="text/css" href="./CSS/Center.css">
+	<script type="text/javascript" src="./js/ajaxtest.js"></script>
   </head>
   <body>
 	<br>
@@ -33,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</c:when>
 	</c:choose>
 	<fmt:setBundle basename="message" scope="session"/>
-		<form action="log.do" method="post">
+		<form action="log.do" method="post" enctype="application/x-www-form-urlencoded">
 				<table style="width:300px">
 					<tr>
 						<td colspan="2" align="center" >
@@ -70,6 +71,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="button" value="<fmt:message key='login.cancel'/>">
 						<input type="submit" value="<fmt:message key="login.submit"/>" >
 						<input type="reset" value="<fmt:message key="login.reset"/>" onclick="reset()">
+						<input type="button" 
+							onclick='
+								var data="";
+								data+="name="+document.getElementById("name").value;
+								data+="&pwd="+document.getElementById("pwd").value;
+								data+="&checkCode"+document.getElementById("checkCode").value;
+								alert(data);
+								var url="<%=path %>/login.do";
+								var mrthod="POST";
+								var container=document.getElementById("view");
+								sendRequest(url,method,data,container);
+								'
+								value="test">
+						<input type="button" value="ajaxtest"
+							onclick='
+								var container=document.getElementById("view");
+						sendRequest("<%=path %>/login.jsp", "POST", null, container)
+							'
+						
+						>
 						</td>
 					</tr>
 				</table>
@@ -79,5 +100,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div>
 			<%=request.getAttribute("LoginError")==null?"":request.getAttribute("LoginError") %>
 		</div>	
+		<div id="view" style="border: 1px solid #ff0000;display:none"></div>
   </body>
 </html>
