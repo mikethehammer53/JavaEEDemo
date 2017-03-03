@@ -30,9 +30,9 @@ public class PageDBConnectionTest {
 				List<EMP> emps=new ArrayList<EMP>();
 				while(rs.next()){
 					EMP emp=new EMP();
-					emp.setEmpno(rs.getInt("empno"));
-					emp.setEname(rs.getString("ename"));
-					emp.setJob(rs.getString(rs.getString("job")));
+					emp.setEmpno(rs.getInt("EMPNO"));
+					emp.setEname(rs.getString("ENAME"));
+					emp.setJob(rs.getString("JOB"));
 					emps.add(emp);
 				}
 				return emps;
