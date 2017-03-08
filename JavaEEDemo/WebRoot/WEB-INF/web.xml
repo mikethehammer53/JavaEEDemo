@@ -13,10 +13,10 @@
     <servlet-name>logoutservlet</servlet-name>
     <servlet-class>com.user.reg.logoutservlet</servlet-class>
   </servlet>
-  <servlet>
+<!--   <servlet>
     <servlet-name>CheckCode</servlet-name>
     <servlet-class>com.user.reg.CheckCode</servlet-class>
-  </servlet>
+  </servlet> -->
   <servlet>
     <servlet-name>jdbctest</servlet-name>
     <servlet-class>jdbc.jdbctest</servlet-class>
@@ -45,6 +45,11 @@
     <servlet-name>DownloadServlet</servlet-name>
     <servlet-class>com.user.reg.DownloadServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>com.user.reg.RegisterServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -69,6 +74,10 @@
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
     <url-pattern>/download.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/reg.do</url-pattern>
   </servlet-mapping>
 
 

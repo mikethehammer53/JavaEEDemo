@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </style>
     <script type="text/javascript" src="<%=path %>/js/jquery-3.1.1.js"></script>
 	<script type="text/javascript">
+	var msg="<div style='color: red'>message</div>";
 	$(function() {
 		$("#a1").on("click",function(){
 			$("#a1").css("display","none")
@@ -77,6 +78,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		case "6":
   			$("p").after($("div").clone());
   			break;
+  		case "7":
+  			$("#test").after(msg);
+  			break;
   		}
   	}
   	</script>
@@ -91,6 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<option value="4">Replace</option>
   	<option value="5">Empty</option>
   	<option value="6">Clone</option>
+  	<option value="7">Change Style</option>
   	</select><br>
   	<div id="div1" class="c1" style="border: 1px solid;color: red">div1</div>
   	<div id="div2" class="c2" style="border: 1px solid;color: orange">div2</div>
@@ -102,6 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<p id="p1">p1</p>
   	<a id="a1" href="javascript:void()" style="color: red">a1</a>
   	<a id="a2" href="javascript:void()" style="color: green;display: none">a2</a>
+  	<div id="test">test div</div>
   	
   	<table border="1">
   		<tr>

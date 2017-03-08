@@ -1,4 +1,4 @@
-package com.user.reg;
+package verifyCode;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 @WebServlet("/checkCode.do")
-public class CheckCode extends HttpServlet {
-
+public class VerifyCodeGenernate extends HttpServlet {
+public static final String checkCode="";
 	/**
 	 * Destruction of the servlet. <br>
 	 */
@@ -55,7 +55,7 @@ public class CheckCode extends HttpServlet {
 		for(int i=1;i<=6;i++){
 		str+=String.valueOf(base.charAt((int)((Math.random()*(62-1)+0))));
 		}
-		request.getSession().setAttribute("checkcode", str);
+		request.getSession().setAttribute("verifycode", str);
 		BufferedImage image=new BufferedImage(60,20,BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d=(Graphics2D)image.getGraphics();
 		g2d.drawString(str, 5, 15);
