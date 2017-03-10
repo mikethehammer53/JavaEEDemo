@@ -17,15 +17,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="./CSS/Center.css">
 	<script type="text/javascript" src="./js/ajaxtest.js"></script>
 	<script type="text/javascript" src="<%=path %>/js/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="./js/jquery.validate.js"></script>
+	<!-- <script type="text/javascript" src="./js/jquery.validate.js"></script> -->
 	<script type="text/javascript" src="./js/localization/messages_zh.js"></script>
+	<script type="text/javascript" src="./js/RegValidate.js"></script>
 	
 	<script type="text/javascript">
 
 		$(function(){
 			$("#commentForm").validate();
-		})
-	
+		});
+		
+		$id=function(id){
+			return document.getElementById(id);
+		};
+		$names=function(name){
+			return document.getElementByName(name);
+		};
+		
 	
 	</script>
   </head>
@@ -36,7 +44,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<br>
 	<br>
 	<br>
-	
 	<c:choose>
 		<c:when test='${param.lang=="CN"}'>
 			<fmt:setLocale value="zh_CN" scope="session"/>
@@ -45,37 +52,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<fmt:setLocale value="en_US" scope="session"/>
 		</c:when>
 	</c:choose>
+	<div style="border: solid 1px black;width:40%;" align="right">
 	<fmt:setBundle basename="message" scope="session"/>
-		<form id="commentForm" action="log.do" method="post" enctype="application/x-www-form-urlencoded">
-				<table style="width:300px">
-					<tr>
-						<td colspan="2" align="center" >
+		<form id="commentForm" action="login.do" method="post" enctype="application/x-www-form-urlencoded">
+				<table >
+					<tr><th>
+					<th colspan="1" align="center">
 						<h1><fmt:message key="login.title"/></h1>
-						</td>
+					</th>				
 					</tr>
 					<tr >
 						<td>
 							<fmt:message key="login.lblname"/>:
 						</td>
-						<td><input id="uid" name="name" type="text"  required="required" minlength="5" maxlength="10"
-							value="<%=request.getAttribute("username")==null?"":request.getAttribute("username")%>"></td>
+						<td><input  class="inputbox" id="uid" name="name" type="text"  required="required" minlength="5" maxlength="10"
+							value="<%=request.getAttribute("name")==null?"":request.getAttribute("name")%>"
+							></td>
+							<td >
+								<label id="nameerr" style="color: #ff0000"></label>
+								<label id="nameexisted" style="color: red">${userExistErr }</label>
+							</td>
 					</tr>
 					<tr>
 						<td>
-						<fmt:message key="login.lblpwd"/>：
-						&nbsp;&nbsp;</td>
-						<td><input id="pid" name="pwd" type="password" style="width:100%" required="required" minlength="6" maxlength="20"></td>
-						
+							<fmt:message key="login.lblpwd"/>：
+							&nbsp;&nbsp;
+						</td>
+						<td>
+							<input  class="inputbox" id="pid" name="password" type="password"  required="required" minlength="6" maxlength="20">
+						</td>
+						<td>
+							<label id="pwderr" style="color: red"></label>
+						</td>
 					</tr>
 					<tr>
 						<td>
 							<fmt:message key="login.check"/>：</td>
 						<td>
-							<input id="checkcode" name="checkcode" type="text">
+							<input class="inputbox" id="verifycodeid" name="verifycode" type="text">
 						</td>
-						<td>
+						<td width="60px" height="20px">
 							<img alt="验证码"  src="<%=path %>/checkCode.do" 
 								onclick="this.src='<%=path %>/checkCode.do?'+Math.random()" style="cursor: pointer;width: 60px;height: 20px;">
+						</td>
+						<td>
+							<label   id="verifycodeerr" style="color: red">${verifyCodeErr }</label>
 						</td>
 					</tr>
 					<tr >
@@ -83,36 +104,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="button" value="<fmt:message key='login.cancel'/>">
 						<input type="submit" value="<fmt:message key="login.submit"/>" >
 						<input type="reset" value="<fmt:message key="login.reset"/>" onclick="reset()">
-						<input type="button" 
-							onclick='
-								var data="";
-								data+="name="+document.getElementById("name").value;
-								data+="&pwd="+document.getElementById("pwd").value;
-								data+="&checkCode"+document.getElementById("checkCode").value;
-								alert(data);
-								var url="<%=path %>/login.do";
-								var mrthod="POST";
-								var container=document.getElementById("view");
-								sendRequest(url,method,data,container);
-								'
-								value="test">
-						<input type="button" value="ajaxtest"
-							onclick='
-								var container=document.getElementById("view");
-						sendRequest("<%=path %>/login.jsp", "POST", null, container)
-							'
-						
-						>
 						</td>
 					</tr>
 				</table>
 		</form>
-		<a href="login.jsp?lang=CN" >中文</a>
-		<a href="login.jsp?lang=US" >English</a>
+		<a href="register.jsp?lang=CN" >中文</a>
+		<a href="register.jsp?lang=US" >English</a>
 		<div>
-		${LoginError }
 			<%=request.getAttribute("LoginError")==null?"":request.getAttribute("LoginError") %>
 		</div>	
 		<div id="view" style="border: 1px solid #ff0000;display:none"></div>
+		</div>
   </body>
 </html>

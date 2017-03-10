@@ -1,4 +1,4 @@
-package process;
+package dbProcess;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

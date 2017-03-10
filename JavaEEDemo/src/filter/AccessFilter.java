@@ -1,7 +1,9 @@
-package com.user.reg;
+package filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,24 +14,53 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-public class CharFilter extends HttpServlet implements Filter {
+public class AccessFilter extends HttpServlet implements Filter {
 
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1,
-			FilterChain arg2) throws IOException, ServletException {
-		System.out.println("开始过滤");
-		HttpServletRequest req=(HttpServletRequest)arg0;
-		HttpServletResponse resp=(HttpServletResponse)arg1;
-		req.setCharacterEncoding("utf-8");
-		resp.setCharacterEncoding("utf-8");
-		arg2.doFilter(arg0, arg1);
-		
+	public void doFilter(ServletRequest req, ServletResponse resp,
+			FilterChain filterchain) throws IOException, ServletException {
+		List<String> excludeURL = Arrays.asList("/login.jsp", "/register.jsp", "login.do","reg.do","/relay/relay.jsp?err=1","/relay/relay.jsp");
+		boolean flag=false;
+		HttpServletRequest request=(HttpServletRequest)req;
+		HttpServletResponse response=(HttpServletResponse)resp;
+		String currentURL=request.getRequestURI();
+		String targetURL=currentURL.substring(currentURL.indexOf("/",1),currentURL.length());
+		HttpSession session=request.getSession(false);
+		System.out.println("currentURL:"+currentURL);
+		System.out.println("targetURL:"+targetURL);
+		for(String url:excludeURL){
+			if(targetURL.equals(url)){
+				flag=false;
+				break;
+			}
+			else flag=true;
+			
+		}	
+		if(flag){
+			if(session==null||session.getAttribute("LoggedUser")==null){
+				System.out.print("access denied:");
+				System.out.println("request.getContextPath:"+request.getContextPath());
+				response.sendRedirect(request.getContextPath()+"/relay/relay.jsp?err=1");
+				System.out.println("-------------------------");
+				return;
+			}
+		}
+		System.out.println("access granted");
+		filterchain.doFilter(request, response);
+		System.out.println("-------------------------");
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		System.out.println("过滤器初始化");
+		// TODO Auto-generated method stub
+		System.out.println("访问过滤器初始化");
+		
+		
+		
+		
+		
 	}
 
 	/**

@@ -1,17 +1,20 @@
 package com.user.reg;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dbProcess.InsertSQL;
 import dbProcess.UserCheck;
 
-public class RegisterServlet extends HttpServlet {
+
+public class LoginServlet extends HttpServlet {
 
 	/**
 	 * Destruction of the servlet. <br>
@@ -50,54 +53,47 @@ public class RegisterServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		//System.out.println("RegisterServlet doPost方法");
 		HttpServletRequest request=(HttpServletRequest)req;
 		HttpServletResponse response=(HttpServletResponse)resp;
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		String name=request.getParameter("name");
 		String password=request.getParameter("password");
-		String password2=request.getParameter("password2");
-		String email=request.getParameter("email");
 		String verifyCode=request.getParameter("verifycode");
 		verifyCode=verifyCode.toLowerCase();
 		Object obj=request.getSession().getAttribute("verifycode");
 		String trueVerifyCode=obj.toString();
 		trueVerifyCode=trueVerifyCode.toLowerCase();
-		RequestDispatcher rd=request.getRequestDispatcher("register.jsp");
+		RequestDispatcher rd2register=request.getRequestDispatcher("register.jsp");
+		RequestDispatcher rd2login=request.getRequestDispatcher("login.jsp");
+		RequestDispatcher rd2success=request.getRequestDispatcher("main.jsp");
 		if(trueVerifyCode.equals(verifyCode)){
 			UserCheck UserCheck=new UserCheck();
-			if(UserCheck.existcheck(name)){
-				request.setAttribute("userExistErr", "用户已存在");
-				rd.forward(request, response);
+			//user not existed
+			if(!UserCheck.existcheck(name)){
+				req.setAttribute("name", name);
+				req.setAttribute("userExistErr", "用户尚未注册");
+				rd2register.forward(req, resp);
 			}
 			else{
-				if(password.equals(password2)){
-					InsertSQL insertSql=new InsertSQL();
-					int row=insertSql.insert(name, password, email);
-					if(row==1){
-						System.out.println("success");
-						response.sendRedirect("RegisterSuccess.jsp");
-					}
-					else{
-						System.out.println("falied");
-						request.setAttribute("name", name);
-						rd.forward(request, response);
-					}
+				//check password
+				if(UserCheck.pwdcheck(name, password)){
+					PrintWriter out=response.getWriter();
+					out.write("<script type='javascript/text'>alert('注册成功');</script>");
+					HttpSession session=req.getSession();
+					session.setAttribute("LoggedUser", name);
+					resp.sendRedirect("main.jsp");
+					
 				}
-				else{
-					request.setAttribute("cfmpwderr", "密码不一致");
-					rd.forward(request,response);
-				}
-				
 			}
-		
 		}
 		else{
+			//verify code error
 			request.setAttribute("verifyCodeErr", "验证码错误");
-			rd.forward(request, response);
+			rd2login.forward(request, response);
 		}
 	}
+	
 
 	/**
 	 * Initialization of the servlet. <br>

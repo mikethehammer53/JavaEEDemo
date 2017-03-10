@@ -1,4 +1,4 @@
-package process;
+package dbProcess;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -34,6 +34,7 @@ public class ListAll {
 				user.setPassword(rs.getString("password"));
 				user.setEmail(rs.getString("email"));
 				list.add(user);
+				String pwd=user.getPassword();
 			}
 			
 		}
